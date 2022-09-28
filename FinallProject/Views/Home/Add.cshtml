@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Add Post";
+}
+<style>
+    input, textarea {
+        width: 80%;
+    }
+</style>
+<h1>@ViewData["Title"]</h1>
+
+<h2>Title</h2>
+<input placeholder="Title" type="text" maxlength="64" id="post-title">
+<h3>Content</h3>
+<textarea placeholder="Content..." rows="10" type="text" class="content-input" id="post-content"></textarea>
+<button id="submit">Submit</button>
+<button id="cancel">Cancel</button>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    $("#submit").on("click", function(){
+        let postData = {
+            Title: $("#post-title").val(),
+            Content: $("#post-content").val(),
+            Author: $("#app-data").data("userid"),
+            Timestamp: new Date(),
+        }
+        $.ajax({ // Post request to create user
+                    type: "POST",
+                    url: "http://localhost:5000/api/Posts",
+                    // The key needs to match your method's input parameter (case-sensitive).
+                    data: JSON.stringify(postData),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(data) {
+                        window.location.href = "http://localhost:5000";
+                    },
+                    error: function(errMsg) {
+                        console.log(errMsg);
+                        alert("Error! Something Went Horribly Wrong, Hide in your bunkers");
+                    },
+                });
+    });
+
+    $("#cancel").on("click", function(){
+        window.location.href = "http://localhost:5000";
+    })
+
+
+
+</script>
